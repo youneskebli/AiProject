@@ -16,8 +16,7 @@ st.title("Wild Fire Detection App")
 
 st.sidebar.markdown("** App Status **")
 
-model, session = load_trained_model("temp_model.h5")
-K.set_session(session)
+model = load_trained_model("temp_model.h5")
 
 
 st.sidebar.markdown('Please upload a raw satellite image')

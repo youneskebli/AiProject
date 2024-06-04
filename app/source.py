@@ -60,8 +60,7 @@ def conv_float_int(image):
 
 def load_trained_model(model_location):
     loaded_model = load_model(model_location)
-    session = K.get_session()
-    return loaded_model, session
+    return loaded_model
 
 def burn_area(output_mask, resolution, forest_type):
   # reference: https://www.geosci-model-dev.net/4/625/2011/gmd-4-625-2011.pdf
@@ -73,15 +72,8 @@ def burn_area(output_mask, resolution, forest_type):
                    'Grasslands': 976
                   }
   area = np.count_nonzero(output_mask) * resolution**2
-  # Ei = A(x,t)×B(x)×FB×efi, 
-  # A: area, 
-  # B(biomass_type), 
-  # FB:Burning fraction, assume 1 here
-  # efi: mass of biomass burnt, for CO2, it averages 1624 g/kg. 
   biomass_burnt =  area * biomass_type[forest_type]/1e3 * 1624 #unit in g
   
-  # Califorlia annual CO2 emision from power generating, 424 million metric tons of CO2 per year
-  # Reference: https://ww3.arb.ca.gov/cc/inventory/pubs/reports/2000_2016/ghg_inventory_trends_00-16.pdf
   ca_co2_daily = 4.24e8 / 365.
   
   equal_days = biomass_burnt /1e6 / ca_co2_daily
